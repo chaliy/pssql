@@ -20,7 +20,7 @@ Param(
 		Write-Host $_
 	})
 	
-	$Sql -split "GO" | %{
+	$Sql -split "(?m)^GO" | %{
 		$cmd = $connection.CreateCommand()
 		$cmd.CommandTimeout = 30
 		$cmd.CommandText = $_

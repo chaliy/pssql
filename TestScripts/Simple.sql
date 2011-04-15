@@ -1,5 +1,5 @@
 USE Master
 GO
 
-PRINT N'Hello wrold!'
+PRINT N'Go world!'
 GO
