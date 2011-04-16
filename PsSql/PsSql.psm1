@@ -7,7 +7,7 @@ function Invoke-Sql {
 Param(
     [Parameter(ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$true, Mandatory=$true, Position=0)]    
     [String]$Script
-)	
+)
 	if ($Script.EndsWith(".sql")){
 		$Sql = [IO.File]::ReadAllText($Script)
 	} else {
@@ -20,12 +20,14 @@ Param(
 		Write-Host $_
 	})
 	
-	$Sql -split "(?m)^GO" | %{
-		$cmd = $connection.CreateCommand()
-		$cmd.CommandTimeout = 30
-		$cmd.CommandText = $_
-		$cmd.ExecuteNonQuery() | Out-Null
-		$cmd.Dispose()
+	$Sql -split "(?m)^GO" | %{    
+        if (-not [String]::IsNullOrEmpty($_)) { 
+    		$cmd = $connection.CreateCommand()
+    		$cmd.CommandTimeout = 30
+    		$cmd.CommandText = $_
+    		$cmd.ExecuteNonQuery() | Out-Null
+    		$cmd.Dispose()
+        }
 	}
 	$connection.Dispose()
 	
