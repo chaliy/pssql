@@ -6,7 +6,8 @@ function Invoke-Sql {
 [CmdletBinding()]
 Param(
     [Parameter(ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$true, Mandatory=$true, Position=0)]    
-    [String]$Script
+    [String]$Script,
+	[String]$ConnectionString = "Server = .;Integrated Security=True"
 )
 	if ($Script.EndsWith(".sql")){
 		$Sql = [IO.File]::ReadAllText($Script)
@@ -37,6 +38,8 @@ Param(
 .Description     
 .Parameter Script
     SQL script to execute
+.Parameter ConnectionString
+    Optional paramter for connection string that command will use to excute script, by default connection string is to local default server and windows authentication
 .Example
     Invoke-Sql instnwnd.sql 
 
